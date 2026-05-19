@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>JAVA QUIZ by THETE SIR</title>
+<title>JAVA QUIZ BY THETE SIR</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -18,10 +18,66 @@
 
 body{
     font-family:'Poppins',sans-serif;
-    background:linear-gradient(135deg,#f6fbff,#e6f0ff);
+    background:linear-gradient(135deg,#ffffff,#f3f7ff);
     color:#0f172a;
     min-height:100vh;
     padding:28px 12px;
+    position:relative;
+    overflow-x:hidden;
+}
+
+body::before{
+    content:'';
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:linear-gradient(135deg, rgba(255,255,255,0.92), rgba(226,232,255,0.8));
+    pointer-events:none;
+    z-index:-2;
+}
+
+#binary-background{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    z-index:-1;
+    pointer-events:none;
+    opacity:0.25;
+    font-family:'Courier New',monospace;
+    font-size:12px;
+    line-height:1.5;
+    overflow:hidden;
+    color:rgba(12,12,12,0.22);
+    text-shadow:0 0 6px rgba(12,12,12,0.08);
+    background:linear-gradient(180deg, rgba(255,255,255,0), rgba(0,0,0,0.08));
+    animation:moveBinary 28s linear infinite;
+}
+
+#binary-background span{
+    display:block;
+    white-space:pre;
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    overflow:hidden;
+    transform:translateY(0);
+    animation:scrollBinary 16s linear infinite;
+}
+
+@keyframes moveBinary{
+    from{transform:translateY(0);}
+    to{transform:translateY(-100%);}
+}
+
+@keyframes scrollBinary{
+    from{transform:translateY(0);}
+    to{transform:translateY(-50%);}
 }
 
 .container{
@@ -35,9 +91,27 @@ body{
 }
 
 .quiz-header h1{
-    font-size:34px;
+    font-size:38px;
     margin-bottom:6px;
     color:#0b3d91;
+    line-height:1.1;
+}
+
+.quiz-header h1 .title-text{
+    display:block;
+    font-family:'Courier New', Courier, monospace;
+    font-weight:700;
+    letter-spacing:1px;
+    text-transform:uppercase;
+}
+
+.quiz-header h1 .author-text{
+    display:block;
+    font-family:'Poppins',sans-serif;
+    font-size:0.55em;
+    color:#334155;
+    letter-spacing:0.16em;
+    margin-top:6px;
 }
 
 .quiz-header p{
@@ -64,6 +138,14 @@ body{
 
 .question-card:hover{
     transform:translateY(-3px);
+}
+
+@media(hover:none){
+    .question-card:hover,
+    .option:hover,
+    .submit-btn:hover{
+        transform:none;
+    }
 }
 
 .question-title{
@@ -131,6 +213,34 @@ body{
     transform:translateY(-2px);
 }
 
+.nav-btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:40px;
+    height:40px;
+    padding:0;
+    border-radius:50%;
+    border:none;
+    background:#0b63d4;
+    color:#ffffff;
+    font-size:18px;
+    font-weight:700;
+    cursor:pointer;
+    transition:transform .12s ease, box-shadow .12s ease, background .12s ease;
+    box-shadow:0 4px 12px rgba(11,61,145,0.16);
+}
+
+.nav-btn:disabled{
+    opacity:0.35;
+    cursor:not-allowed;
+    box-shadow:none;
+}
+
+.nav-btn:hover:not(:disabled){
+    transform:translateY(-1px);
+}
+
 .result-box{
     margin-top:18px;
     text-align:center;
@@ -142,6 +252,29 @@ body{
     background:#ffffff;
     border:1px solid #dbeafe;
     color:#062463;
+}
+
+.footer-note{
+    margin-top:24px;
+    text-align:center;
+    font-size:12px;
+    color:#0f172a;
+    letter-spacing:0.02em;
+}
+
+.footer-note .footer-powered{
+    display:block;
+    font-family:'Segoe Script', 'Brush Script MT', cursive;
+    font-size:11px;
+    color:#334155;
+    margin-bottom:2px;
+}
+
+.footer-note .footer-copyright{
+    display:block;
+    font-size:11px;
+    font-weight:700;
+    color:#0f172a;
 }
 
 .correct{
@@ -173,18 +306,145 @@ body{
 #timer{font-family:'Poppins',sans-serif;color:#0b3d91}
 
 @media(max-width:768px){
+    body{
+        padding:16px 8px;
+    }
+
+    .container{
+        max-width:100%;
+        padding:0 8px;
+    }
 
     .quiz-header h1{
-        font-size:28px;
+        font-size:24px;
+        margin-bottom:10px;
+    }
+
+    .quiz-header p{
+        font-size:13px;
+    }
+
+    .header-image{
+        max-width:150px;
+        margin:15px auto;
     }
 
     .question-title{
-        font-size:16px;
+        font-size:15px;
+        margin-bottom:12px;
     }
 
-    .submit-btn{font-size:16px;padding:10px 14px}
-    .option{padding:16px;font-size:17px}
+    .question-card{
+        padding:14px;
+        margin-bottom:14px;
+    }
 
+    .submit-btn{
+        font-size:15px;
+        padding:10px 14px;
+        min-width:120px;
+        width:100%;
+        box-sizing:border-box;
+    }
+
+    .option{
+        padding:14px 12px;
+        font-size:15px;
+        margin-bottom:8px;
+    }
+
+    .option input{
+        margin-right:8px;
+    }
+
+    #timer{
+        font-size:14px;
+        padding:6px 10px;
+    }
+
+    .result-box{
+        padding:14px;
+        font-size:16px;
+        margin-top:14px;
+    }
+}
+
+@media(max-width:480px){
+    body{
+        padding:12px 6px;
+    }
+
+    .container{
+        max-width:100%;
+        padding:0 4px;
+    }
+
+    .quiz-header h1{
+        font-size:20px;
+        margin-bottom:8px;
+    }
+
+    .quiz-header p{
+        font-size:12px;
+    }
+
+    .header-image{
+        max-width:120px;
+        margin:12px auto;
+    }
+
+    .question-title{
+        font-size:14px;
+        margin-bottom:10px;
+        line-height:1.3;
+    }
+
+    .question-card{
+        padding:12px;
+        margin-bottom:12px;
+        border-radius:10px;
+    }
+
+    .submit-btn{
+        font-size:14px;
+        padding:9px 12px;
+        min-width:100%;
+        width:100%;
+        box-sizing:border-box;
+        margin-bottom:10px;
+    }
+
+    .option{
+        padding:12px 10px;
+        font-size:14px;
+        margin-bottom:8px;
+        border-radius:8px;
+    }
+
+    .option input{
+        margin-right:6px;
+    }
+
+    #timer{
+        font-size:12px;
+        padding:4px 8px;
+    }
+
+    div[style*="display:flex"][style*="gap:12px"]{
+        flex-direction:column;
+        gap:8px !important;
+    }
+
+    .submit-btn:not([disabled]){
+        transform:none;
+    }
+
+    .result-box{
+        padding:12px;
+        font-size:14px;
+        margin-top:12px;
+        line-height:1.6;
+    }
 }
 
 </style>
@@ -193,10 +453,12 @@ body{
 
 <body>
 
+<div id="binary-background"><span>0101010010110010 1010011010101010 1100101010100110 1010100110100101 0011010100101010 1101001010101011 1010101010011010 0101010010110010 1010011010101010 1100101010100110 1010100110100101 0011010100101010 1101001010101011</span></div>
+
 <div class="container">
 
 <div class="quiz-header">
-    <h1>JAVA QUIZ by THETE SIR</h1>
+    <h1><span class="title-text">JAVA QUIZ</span><span class="author-text">BY THETE SIR</span></h1>
     <img src="./HACKER.png" alt="Hacker" class="header-image">
     <p>Test your Java programming knowledge</p>
 </div>
@@ -215,6 +477,8 @@ body{
 <!-- global submit removed; per-question Submit used -->
 
 <div class="result-box" id="resultBox"></div>
+
+<div class="footer-note"><span class="footer-powered">powered by</span><span class="footer-copyright">© GP AMRAVATI</span></div>
 
 </div>
 
@@ -843,6 +1107,7 @@ const quizForm = document.getElementById("quizForm");
 let currentIndex = 0;
 let score = 0;
 const totalQuestions = quizData.length;
+let selectedAnswers = Array(totalQuestions).fill(null);
 
 // Disable inputs until test starts
 document.querySelectorAll('#quizForm input').forEach(i=>i.disabled = true);
@@ -870,6 +1135,7 @@ function startTest(){
     testStarted = true;
     currentIndex = 0;
     score = 0;
+    selectedAnswers = Array(totalQuestions).fill(null);
     document.getElementById('resultBox').style.display = 'none';
     document.getElementById('startBtn').disabled = true;
     document.getElementById('startBtn').textContent = 'Test Started';
@@ -896,13 +1162,33 @@ updateTimerDisplay();
 function renderQuestion(index){
     quizForm.innerHTML = '';
     const q = quizData[index];
+    const selectedValue = selectedAnswers[index];
     const questionCard = document.createElement('div');
     questionCard.classList.add('question-card');
     let html = `<div class="question-title">Q${index + 1}. ${q.question}</div>`;
-    q.options.forEach(option=>{
-        html += `\n        <label class="option">\n            <input type="radio" name="q${index}" value="${option}">\n            ${option}\n        </label>`;
+    q.options.forEach((option,optIndex)=>{
+        const isChecked = option === selectedValue ? ' checked' : '';
+        const optionPrefix = String.fromCharCode(65 + optIndex) + '. ';
+        let labelClass = 'option';
+        if(selectedValue){
+            if(option === q.answer){
+                labelClass += ' option-right';
+            } else if(option === selectedValue){
+                labelClass += ' option-wrong';
+            }
+        }
+        html += `\n        <label class="${labelClass}">\n            <input type="radio" name="q${index}" value="${option}"${isChecked}>\n            ${optionPrefix}${option}\n        </label>`;
     });
-    html += `\n    <div style="display:flex;gap:8px;margin-top:12px;align-items:center">\n        <button id="submitAnswerBtn" class="submit-btn" type="button" onclick="submitAnswer()">Submit</button>\n        <div id="feedback" style="margin-left:12px;font-weight:700"></div>\n    </div>`;
+    let feedbackLine = `<div id="feedback" style="margin-top:12px;font-weight:700;"></div>`;
+    if(selectedValue){
+        if(selectedValue === q.answer){
+            feedbackLine = `<div id="feedback" style="margin-top:12px;font-weight:700;color:#22c55e">Correct — correct answer: <strong>${q.answer}</strong></div>`;
+        } else {
+            feedbackLine = `<div id="feedback" style="margin-top:12px;font-weight:700;color:#ef4444">Wrong — correct answer: <strong>${q.answer}</strong></div>`;
+        }
+    }
+    html += `\n    <div style="display:flex;gap:8px;margin-top:12px;align-items:center">\n        <button id="prevQuestionBtn" class="nav-btn" type="button" onclick="prevQuestion()" ${index === 0 ? 'disabled' : ''}>&larr;</button>\n        <button id="submitAnswerBtn" class="submit-btn" type="button" onclick="submitAnswer()">Submit</button>\n    </div>`;
+    html += feedbackLine;
     questionCard.innerHTML = html;
     quizForm.appendChild(questionCard);
     // enable/disable inputs depending on started state
@@ -915,23 +1201,23 @@ function submitAnswer(){
     const card = document.getElementsByClassName("question-card")[0];
     const fb = document.getElementById('feedback');
     card.classList.remove('correct'); card.classList.remove('wrong');
-    fb.textContent = '';
+    if(fb){ fb.textContent = ''; }
     // clear any previous option highlights
     document.querySelectorAll('#quizForm .option').forEach(l=>{ l.classList.remove('option-right','option-wrong'); });
 
-    if(selected && selected.value === quizData[currentIndex].answer){
-        score++;
+    selectedAnswers[currentIndex] = selected ? selected.value : null;
+    const correctVal = quizData[currentIndex].answer;
+    if(selected && selected.value === correctVal){
         card.classList.add('correct');
         // highlight the selected label as correct
         if(selected && selected.closest('label')) selected.closest('label').classList.add('option-right');
-        if(fb) { fb.textContent = 'Correct'; fb.style.color = '#22c55e'; }
+        if(fb) { fb.innerHTML = 'Correct — correct answer: <strong>' + correctVal + '</strong>'; fb.style.color = '#22c55e'; }
     } else {
         card.classList.add('wrong');
         // show correct answer and highlight options
-        const correctVal = quizData[currentIndex].answer;
-        if(fb) { fb.innerHTML = 'Wrong — correct: <strong>' + correctVal + '</strong>'; fb.style.color = '#ef4444'; }
+        if(fb) { fb.innerHTML = 'Wrong — correct answer: <strong>' + correctVal + '</strong>'; fb.style.color = '#ef4444'; }
         // highlight correct option
-        const correctInput = document.querySelector(`#quizForm input[name="q${currentIndex}"][value="${quizData[currentIndex].answer}"]`);
+        const correctInput = document.querySelector(`#quizForm input[name="q${currentIndex}"][value="${correctVal}"]`);
         if(correctInput && correctInput.closest('label')) correctInput.closest('label').classList.add('option-right');
         // mark selected wrong option if any
         if(selected && selected.closest('label')) selected.closest('label').classList.add('option-wrong');
@@ -949,6 +1235,13 @@ function submitAnswer(){
     },700);
 }
 
+function prevQuestion(){
+    if(currentIndex > 0){
+        currentIndex--;
+        renderQuestion(currentIndex);
+    }
+}
+
 function updateProgressBar(){
     const pct = ((currentIndex) / totalQuestions) * 100;
     document.getElementById('progressBar').style.width = `${pct}%`;
@@ -957,10 +1250,11 @@ function updateProgressBar(){
 function showResults(){
     if(timerInterval){ clearInterval(timerInterval); timerInterval = null; }
     timeLeft = 0; updateTimerDisplay();
+    score = selectedAnswers.reduce((sum, answer, idx) => sum + (answer === quizData[idx].answer ? 1 : 0), 0);
     const percentage = (score / totalQuestions) * 100;
     const resultBox = document.getElementById("resultBox");
     resultBox.style.display = "block";
-    resultBox.innerHTML = `Your Score: ${score} / ${totalQuestions}<br><br>Percentage: ${percentage.toFixed(2)}%`;
+    resultBox.innerHTML = `Your Score: ${score} / ${totalQuestions}<br><br>Percentage: ${percentage.toFixed(2)}%<br><br><strong>ALL THE BEST FOR THE EXAM..!</strong>`;
     document.querySelectorAll('#quizForm input').forEach(i=>i.disabled = true);
     document.getElementById('startBtn').disabled = false;
     document.getElementById('startBtn').textContent = 'Restart Test';
@@ -1022,6 +1316,8 @@ function submitQuiz(){
         Your Score: ${score} / ${quizData.length}
         <br><br>
         Percentage: ${percentage.toFixed(2)}%
+        <br><br>
+        <strong>ALL THE BEST FOR THE EXAM..!</strong>
     `;
 
     document.getElementById("progressBar").style.width = `${percentage}%`;
@@ -1039,6 +1335,47 @@ function submitQuiz(){
     if(sb){ sb.disabled = false; sb.textContent = 'Restart Test'; }
     testStarted = false;
 
+}
+
+// Binary code moving background effect
+function initBinaryBackground(){
+    const bg = document.getElementById('binary-background') || createBinaryElement();
+    const binaryChars = '01';
+    const lines = [];
+    const lineCount = Math.floor(window.innerHeight / 20);
+    const charPerLine = Math.floor(window.innerWidth / 10);
+    
+    for(let i=0; i<lineCount; i++){
+        let line = '';
+        for(let j=0; j<charPerLine; j++){
+            line += binaryChars[Math.floor(Math.random()*2)];
+        }
+        lines.push(line);
+    }
+    
+    let offset = 0;
+    setInterval(()=>{
+        offset = (offset + 1) % charPerLine;
+        let html = lines.map((line,idx)=>{
+            const rotated = line.slice(offset) + line.slice(0,offset);
+            return rotated;
+        }).join('<br>');
+        bg.innerHTML = html;
+    },150);
+}
+
+function createBinaryElement(){
+    const el = document.createElement('div');
+    el.id = 'binary-background';
+    document.body.appendChild(el);
+    return el;
+}
+
+// Initialize when DOM is ready
+if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',initBinaryBackground);
+}else{
+    initBinaryBackground();
 }
 
 </script>
