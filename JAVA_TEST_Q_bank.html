@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>JAVA QUIZ by THETE SIR</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Poppins',sans-serif;
+    background:linear-gradient(135deg,#f6fbff,#e6f0ff);
+    color:#0f172a;
+    min-height:100vh;
+    padding:28px 12px;
+}
+
+.container{
+    max-width:920px;
+    margin:auto;
+}
+
+.quiz-header{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.quiz-header h1{
+    font-size:34px;
+    margin-bottom:6px;
+    color:#0b3d91;
+}
+
+.quiz-header p{
+    color:#334155;
+    font-size:15px;
+}
+
+.header-image{
+    max-width:200px;
+    height:auto;
+    margin:20px auto;
+    display:block;
+}
+
+.question-card{
+    background:#ffffff;
+    border:1px solid #dbeafe;
+    box-shadow:0 6px 18px rgba(11,61,145,0.06);
+    padding:18px;
+    margin-bottom:18px;
+    border-radius:14px;
+    transition:0.18s ease;
+}
+
+.question-card:hover{
+    transform:translateY(-3px);
+}
+
+.question-title{
+    font-size:18px;
+    margin-bottom:14px;
+    line-height:1.4;
+    color:#062463;
+}
+
+.option{
+    display:block;
+    background:#f1f8ff;
+    padding:12px 14px;
+    border-radius:10px;
+    margin-bottom:10px;
+    cursor:pointer;
+    transition:0.18s;
+    border:2px solid transparent;
+    color:#062463;
+}
+
+.option-right{
+    background:#dbf0ff !important;
+    border:2px solid #0b63d4 !important;
+    color:#062463 !important;
+}
+
+.option-wrong{
+    background:#fff0f0 !important;
+    border:2px solid #ef4444 !important;
+    color:#7f1d1d !important;
+}
+
+.option:hover{
+    background:#e6f0ff;
+    transform:translateY(-1px);
+}
+
+.option input{
+    margin-right:10px;
+}
+
+.submit-btn{
+    display:inline-block;
+    min-width:140px;
+    padding:12px 16px;
+    border:none;
+    border-radius:12px;
+    background:linear-gradient(90deg,#0b63d4,#3b82f6);
+    color:white;
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
+    transition:transform .12s ease, box-shadow .12s ease;
+    box-shadow:0 6px 14px rgba(11,61,145,0.12);
+}
+
+.submit-btn[disabled]{
+    opacity:0.55;
+    cursor:not-allowed;
+    box-shadow:none;
+}
+
+.submit-btn:hover:not([disabled]){
+    transform:translateY(-2px);
+}
+
+.result-box{
+    margin-top:18px;
+    text-align:center;
+    padding:18px;
+    border-radius:12px;
+    font-size:20px;
+    font-weight:700;
+    display:none;
+    background:#ffffff;
+    border:1px solid #dbeafe;
+    color:#062463;
+}
+
+.correct{
+    border:2px solid #1e90ff;
+}
+
+.wrong{
+    border:2px solid #ef4444;
+}
+
+.progress{
+    width:100%;
+    background:#e6f0ff;
+    height:12px;
+    border-radius:20px;
+    overflow:hidden;
+    margin-bottom:18px;
+}
+
+.progress-bar{
+    height:100%;
+    width:0%;
+    background:linear-gradient(90deg,#0b63d4,#60a5fa);
+    transition:0.18s;
+}
+
+/* Touch-friendly tweaks */
+.option{font-size:16px;padding:14px}
+#timer{font-family:'Poppins',sans-serif;color:#0b3d91}
+
+@media(max-width:768px){
+
+    .quiz-header h1{
+        font-size:28px;
+    }
+
+    .question-title{
+        font-size:16px;
+    }
+
+    .submit-btn{font-size:16px;padding:10px 14px}
+    .option{padding:16px;font-size:17px}
+
+}
+
+</style>
+    
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="quiz-header">
+    <h1>JAVA QUIZ by THETE SIR</h1>
+    <img src="./HACKER.png" alt="Hacker" class="header-image">
+    <p>Test your Java programming knowledge</p>
+</div>
+
+<div style="display:flex;gap:12px;align-items:center;justify-content:center;margin-bottom:18px;flex-wrap:wrap">
+    <button id="startBtn" class="submit-btn" type="button" onclick="startTest()">Start Test</button>
+    <div id="timer" aria-live="polite" style="font-weight:700;font-size:16px;background:#ffffff;padding:8px 12px;border-radius:10px;border:1px solid #dbeafe;">45:00</div>
+</div>
+
+<div class="progress">
+    <div class="progress-bar" id="progressBar"></div>
+</div>
+
+<form id="quizForm"></form>
+
+<!-- global submit removed; per-question Submit used -->
+
+<div class="result-box" id="resultBox"></div>
+
+</div>
+
+<script>
+
+const quizData = [
+
+
+  {
+question: "In a basic Java program, which statement is typically used to display output to the console?",
+options: ["print.out()", "System.input()", "System.out.println()", "output.println()"],
+answer: "System.out.println()"
+},
+
+{
+question: "What kind of error occurs when Java code violates language rules during compilation?",
+options: ["Logical error", "Syntax error", "Runtime error", "Semantic error"],
+answer: "Syntax error"
+},
+
+{
+question: "Which control structure is used in Java to execute a block of code multiple times?",
+options: ["if-else", "switch", "while loop", "break"],
+answer: "while loop"
+},
+
+{
+question: "Why is Java considered a secure programming language?",
+options: [
+"It uses pointers",
+"It supports low-level memory access",
+"It runs on a virtual machine and provides runtime checking",
+"It requires hardware-specific compilation"
+],
+answer: "It runs on a virtual machine and provides runtime checking"
+},
+
+{
+question: "What is the role of the JDK in the Java environment?",
+options: [
+"It only executes Java programs",
+"It provides the runtime environment only",
+"It includes tools to develop, compile, and run Java programs",
+"It only contains the JVM"
+],
+answer: "It includes tools to develop, compile, and run Java programs"
+},
+
+{
+question: "What is the correct sequence of components in a typical Java program structure?",
+options: [
+"Method → Class → Package",
+"Package → Class → Method",
+"Class → Method → Package",
+"Object → Package → Class"
+],
+answer: "Package → Class → Method"
+},
+
+{
+question: "Why is public static void main(String[] args) used in Java programs?",
+options: [
+"It defines the default class",
+"It allows the program to compile",
+"It serves as the starting point for program execution",
+"It initializes all variables"
+],
+answer: "It serves as the starting point for program execution"
+},
+
+{
+question: "Which of the following statements correctly declares a constant in Java?",
+options: [
+"final int MAX = 100;",
+"const int MAX = 100;",
+"static int MAX = 100;",
+"define MAX = 100;"
+],
+answer: "final int MAX = 100;"
+},
+
+{
+question: "What will be the index of the last element in an array declared as int[] arr = new int[10];?",
+options: ["10", "9", "0", "1"],
+answer: "9"
+},
+
+{
+question: "What is the output of the expression 5 + 2 * 3 in Java?",
+options: ["21", "11", "15", "13"],
+answer: "11"
+},
+
+{
+question: "Which feature of an IDE helps detect syntax errors as you type?",
+options: [
+"Debugger",
+"Editor",
+"Syntax highlighter",
+"Code editor with real-time error checking"
+],
+answer: "Code editor with real-time error checking"
+},
+
+{
+question: "Which of the following is a feature of a parameterized constructor in Java?",
+options: [
+"It takes no arguments",
+"It automatically compiles the class",
+"It allows object initialization with user-defined values",
+"It is called manually after object creation"
+],
+answer: "It allows object initialization with user-defined values"
+},
+
+{
+question: "Which statement explains method overloading in Java?",
+options: [
+"Defining multiple methods with different return types",
+"Defining methods with the same name but different parameter lists",
+"Defining a method in a subclass with the same signature",
+"Using multiple constructors in a class"
+],
+answer: "Defining methods with the same name but different parameter lists"
+},
+
+{
+question: "Which of the following correctly differentiates between instance and static variables?",
+options: [
+"Instance variables are shared across all objects, static variables are unique to each object",
+"Static variables are shared across all objects, instance variables are unique to each object",
+"Both are always initialized manually",
+"Static variables cannot store primitive data types"
+],
+answer: "Static variables are shared across all objects, instance variables are unique to each object"
+},
+
+{
+question: "Why are packages used in Java?",
+options: [
+"To increase memory size",
+"To manage multiple Java Virtual Machines",
+"To group related classes and interfaces together",
+"To reduce the number of keywords"
+],
+answer: "To group related classes and interfaces together"
+},
+
+{
+question: "Which of the following is a commonly followed Java coding standard?",
+options: [
+"Method names should begin with uppercase letters",
+"Class names should be in lowercase",
+"Use meaningful and descriptive names for variables and methods",
+"Use tabs instead of spaces for indentation"
+],
+answer: "Use meaningful and descriptive names for variables and methods"
+},
+
+{
+question: "When designing an OOP-based Java application, what principle ensures that class members are only accessed through methods?",
+options: [
+"Abstraction",
+"Inheritance",
+"Encapsulation",
+"Polymorphism"
+],
+answer: "Encapsulation"
+},
+
+{
+question: "Which of the following best explains the role of an object in Java?",
+options: [
+"It stores the class file",
+"It is a static entity used to call methods",
+"It is a runtime instance of a class with its own data",
+"It defines the structure of variables and methods"
+],
+answer: "It is a runtime instance of a class with its own data"
+},
+
+{
+question: "Which condition must be true for method overriding to work properly?",
+options: [
+"The method must be static",
+"The method must be final",
+"The subclass method must have the same signature as the superclass method",
+"The method must be private"
+],
+answer: "The subclass method must have the same signature as the superclass method"
+},
+
+{
+question: "Which modifier allows members to be accessible only within the same package and not by subclasses outside the package?",
+options: ["public", "protected", "private", "default (no modifier)"],
+answer: "default (no modifier)"
+},
+
+{
+question: "What will be the output of the following Student class program? <pre>class Student {\n  int id;\n  String name;\n  Student(int id, String name){ this.id = id; this.name = name; }\n  void display(){ System.out.println(id + \" \" + name); }\n}\nStudent s = new Student(101, \"Alex\");\ns.display();</pre>",
+options: ["101 Alex", "id name", "Error", "0 null"],
+answer: "101 Alex"
+},
+
+{
+question: "Which constructor call will initialize both x and y?",
+options: [
+"Point p = new Point();",
+"Point p = new Point(5);",
+"Point p = new Point(5, 10);",
+"Point p = Point(5, 10);"
+],
+answer: "Point p = new Point(5, 10);"
+},
+
+{
+question: "Which statement will compile and run without error?",
+options: [
+"Dog d = new Animal();",
+"Animal a = new Dog(); a.bark();",
+"Animal a = new Animal(); a.sound();",
+"Dog d = new Dog(); d.sound(); d.bark();"
+],
+answer: "Dog d = new Dog(); d.sound(); d.bark();"
+},
+
+{
+question: "What is the output of the following program? <pre>class A{\n  void show(){ System.out.println(\"A\"); }\n}\nclass B extends A{\n  void show(){ System.out.println(\"B\"); }\n}\nA obj = new B();\nobj.show();</pre>",
+options: ["A", "B", "Compile time error", "Runtime error"],
+answer: "B"
+},
+
+{
+question: "What is the output of Counter program with static count?",
+options: ["1 1 1", "1 2 3", "3 2 1", "0 1 2"],
+answer: "1 2 3"
+},
+
+{
+question: "What will be the output of Parent and Child display method using super.display()?",
+options: [
+"Child class",
+"Parent class",
+"Parent class Child class",
+"Error"
+],
+answer: "Parent class Child class"
+},
+
+{
+question: "What is the correct way to compile and run Java package myapp?",
+options: [
+"javac -d . MyClass.java then java MyClass",
+"javac -package myapp MyClass.java",
+"javac -d . MyClass.java then java myapp.MyClass",
+"java -d . MyClass.java"
+],
+answer: "javac -d . MyClass.java then java myapp.MyClass"
+},
+
+{
+question: "Which design best implements inventory system using Java OOP?",
+options: [
+"Use only functions in one class",
+"Define Product, Inventory, Order classes",
+"Use global variables",
+"Avoid constructors"
+],
+answer: "Define Product, Inventory, Order classes"
+},
+
+{
+question: "What is a key difference between String and StringBuffer?",
+options: [
+"String stores only numbers",
+"String is immutable, StringBuffer is mutable",
+"StringBuffer is used for arrays only",
+"String does not support concatenation"
+],
+answer: "String is immutable, StringBuffer is mutable"
+},
+
+{
+question: "Why is ArrayList preferred over arrays?",
+options: [
+"ArrayList is static in size",
+"ArrayList stores primitive directly",
+"ArrayList allows dynamic resizing",
+"ArrayList cannot hold objects"
+],
+answer: "ArrayList allows dynamic resizing"
+},
+
+{
+question: "Which best describes a HashMap in Java?",
+options: [
+"It stores only unique values",
+"It maps keys to values",
+"It allows duplicate keys",
+"It is ordered collection"
+],
+answer: "It maps keys to values"
+},
+
+{
+question: "What is the purpose of wrapper classes in Java?",
+options: [
+"To convert objects to primitive types",
+"To perform file handling",
+"To use primitive data types as objects",
+"To store only string values"
+],
+answer: "To use primitive data types as objects"
+},
+
+{
+question: "Which statement correctly describes an abstract method?",
+options: [
+"It has default implementation",
+"It is defined inside interface only",
+"It is declared without body and must be overridden",
+"It can be private"
+],
+answer: "It is declared without body and must be overridden"
+},
+
+{
+question: "How does an array of objects work in Java?",
+options: [
+"Each index holds copy of class",
+"It holds references to different classes",
+"It holds references to instances of same class",
+"Only static members stored"
+],
+answer: "It holds references to instances of same class"
+},
+
+{
+question: "What happens when you modify a String object in Java?",
+options: [
+"Original string altered",
+"Exception occurs",
+"New object created",
+"Only reference updated"
+],
+answer: "New object created"
+},
+
+{
+question: "Which feature distinguishes Vector from ArrayList?",
+options: [
+"Vector cannot grow dynamically",
+"Vector is thread-safe",
+"Vector stores primitive only",
+"Vector is always faster"
+],
+answer: "Vector is thread-safe"
+},
+
+{
+question: "Why is String immutable in Java?",
+options: [
+"Content cannot be changed once created",
+"It is stored in private memory",
+"It is always passed by reference",
+"It allows multithreading"
+],
+answer: "Content cannot be changed once created"
+},
+
+{
+question: "Which property of Vector ensures thread safety?",
+options: [
+"It uses synchronized blocks internally",
+"It implements Thread interface",
+"It stores data in binary format",
+"It overrides main method"
+],
+answer: "It uses synchronized blocks internally"
+},
+
+{
+question: "Why must keys in HashMap be unique?",
+options: [
+"To improve memory efficiency",
+"Because keys stored in queue",
+"Duplicate keys overwrite values",
+"To allow method overloading"
+],
+answer: "Duplicate keys overwrite values"
+},
+
+{
+question: "Why are wrapper classes needed in collections?",
+options: [
+"Collections store objects not primitives",
+"They make code shorter",
+"They reduce complexity",
+"They are part of JVM"
+],
+answer: "Collections store objects not primitives"
+},
+
+{
+question: "Which is not a valid benefit of enum?",
+options: [
+"Improve readability",
+"Used in switch",
+"Allow multiple inheritance",
+"Provide fixed constants"
+],
+answer: "Allow multiple inheritance"
+},
+
+{
+question: "What is main purpose of abstract class?",
+options: [
+"Allow direct object creation",
+"Provide default interface implementation",
+"Define common behavior for subclasses",
+"Improve performance"
+],
+answer: "Define common behavior for subclasses"
+},
+
+{
+question: "Which statement about StringBuffer is true?",
+options: [
+"It is immutable",
+"It is slower than String",
+"It allows modification without new object",
+"It does not support append"
+],
+answer: "It allows modification without new object"
+},
+
+{
+question: "What happens when Vector capacity exceeds?",
+options: [
+"It throws exception",
+"It discards last element",
+"It automatically doubles size",
+"It stops adding elements"
+],
+answer: "It automatically doubles size"
+},
+
+{
+question: "Which is true for Java interfaces?",
+options: [
+"They can be instantiated",
+"Variables are public static final",
+"They cannot contain constants",
+"They do not support inheritance"
+],
+answer: "Variables are public static final"
+},
+
+{
+question: "What is output of s1 == s2 for String comparison?",
+options: ["true", "false", "Compile error", "NullPointerException"],
+answer: "false"
+},
+
+{
+question: "Which method removes element from ArrayList by index?",
+options: ["delete(index)", "pop(index)", "remove(index)", "clear(index)"],
+answer: "remove(index)"
+},
+
+{
+question: "What is the output of the following code? <pre>StringBuffer sb = new StringBuffer(\"Java\");\nsb.append(\" Programming\");\nSystem.out.println(sb);</pre>",
+options: [
+"JavaProgramming",
+"Java Programming",
+"Programming Java",
+"Error"
+],
+answer: "Java Programming"
+},
+
+{
+question: "What will Vector program print after removing index 0?",
+options: ["A", "B", "null", "IndexOutOfBoundsException"],
+answer: "B"
+},
+
+{
+question: "How to retrieve third element from ArrayList?",
+options: [
+"dataList.get(2)",
+"dataList.get(3)",
+"dataList[2]",
+"dataList.index(3)"
+],
+answer: "dataList.get(2)"
+},
+
+{
+question: "What is output of map.get(1) in HashMap?",
+options: ["Apple", "Banana", "1", "null"],
+answer: "Apple"
+},
+
+{
+question: "Which converts primitive int 5 to Integer object?",
+options: [
+"Integer i = 5;",
+"Integer i = new Integer(5);",
+"Integer i = Integer.valueOf(5);",
+"All of the above"
+],
+answer: "All of the above"
+},
+
+{
+question: "What is output of enum Color.GREEN?",
+options: ["Color.GREEN", "GREEN", "c", "0"],
+answer: "GREEN"
+},
+
+{
+question: "What is output of interface implemented example?",
+options: [
+"Error",
+"null",
+"Interface implemented",
+"Test"
+],
+answer: "Interface implemented"
+},
+
+{
+question: "Which is valid declaration of array of objects?",
+options: [
+"Student[] s = new Student(10);",
+"Student[] s = new Student[10];",
+"Student s = new Student[10];",
+"Student s[10] = new Student();"
+],
+answer: "Student[] s = new Student[10];"
+},
+
+{
+question: "What happens when two String objects compared using == ?",
+options: [
+"Their contents compared",
+"Their references compared",
+"Case insensitive equality",
+"Throws error"
+],
+answer: "Their references compared"
+},
+
+{
+question: "Which demonstrates multiple inheritance using interfaces?",
+options: [
+"class A extends B, C {}",
+"Class C implements A, B",
+"class A implements B, C",
+"interface A, B extends C"
+],
+answer: "Class C implements A, B"
+},
+
+{
+question: "Which snippet creates array of 5 Student objects correctly?",
+options: [
+"Student[] s = new Student[5]; loop initialize",
+"Student[] s = new Student();",
+"Student[] s = new Student[5]; s = new Student();",
+"Student s = new Student[5];"
+],
+answer: "Student[] s = new Student[5]; loop initialize"
+},
+
+{
+question: "Which collection stores employee names in order and retrieves by index?",
+options: [
+"HashMap",
+"ArrayList",
+"HashSet",
+"TreeMap"
+],
+answer: "ArrayList"
+},
+
+{
+question: "Which collection maps contact name to phone number?",
+options: [
+"ArrayList",
+"Vector",
+"HashMap<String, String>",
+"Set<String>"
+],
+answer: "HashMap<String, String>"
+},
+
+{
+question: "What concept is demonstrated in int j = i where Integer i = 10?",
+options: [
+"Autoboxing",
+"Downcasting",
+"Unboxing",
+"Typecasting"
+],
+answer: "Unboxing"
+},
+
+{
+question: "Which construct is ideal for constant days of week?",
+options: [
+"static final array",
+"enum Days",
+"interface Days",
+"ArrayList"
+],
+answer: "enum Days"
+}
+
+];
+
+const quizForm = document.getElementById("quizForm");
+
+// Single-question flow variables
+let currentIndex = 0;
+let score = 0;
+const totalQuestions = quizData.length;
+
+// Disable inputs until test starts
+document.querySelectorAll('#quizForm input').forEach(i=>i.disabled = true);
+
+// Timer / Start logic
+let timeLeft = 45 * 60; // 45 minutes in seconds
+let timerInterval = null;
+let testStarted = false;
+
+function formatTime(s){
+    const mm = Math.floor(s/60).toString().padStart(2,'0');
+    const ss = (s%60).toString().padStart(2,'0');
+    return `${mm}:${ss}`;
+}
+
+function updateTimerDisplay(){
+    const el = document.getElementById('timer');
+    if(!el) return;
+    el.textContent = formatTime(timeLeft);
+}
+
+function startTest(){
+    // restart if needed
+    if(timerInterval){ clearInterval(timerInterval); timerInterval = null; }
+    testStarted = true;
+    currentIndex = 0;
+    score = 0;
+    document.getElementById('resultBox').style.display = 'none';
+    document.getElementById('startBtn').disabled = true;
+    document.getElementById('startBtn').textContent = 'Test Started';
+    // start timer
+    timeLeft = 45 * 60;
+    updateTimerDisplay();
+    timerInterval = setInterval(()=>{
+        timeLeft--;
+        updateTimerDisplay();
+        if(timeLeft <= 0){
+            clearInterval(timerInterval);
+            timerInterval = null;
+            // finish test
+            showResults();
+        }
+    },1000);
+    // render first question
+    renderQuestion(currentIndex);
+}
+
+// initialize timer display
+updateTimerDisplay();
+
+function renderQuestion(index){
+    quizForm.innerHTML = '';
+    const q = quizData[index];
+    const questionCard = document.createElement('div');
+    questionCard.classList.add('question-card');
+    let html = `<div class="question-title">Q${index + 1}. ${q.question}</div>`;
+    q.options.forEach(option=>{
+        html += `\n        <label class="option">\n            <input type="radio" name="q${index}" value="${option}">\n            ${option}\n        </label>`;
+    });
+    html += `\n    <div style="display:flex;gap:8px;margin-top:12px;align-items:center">\n        <button id="submitAnswerBtn" class="submit-btn" type="button" onclick="submitAnswer()">Submit</button>\n        <div id="feedback" style="margin-left:12px;font-weight:700"></div>\n    </div>`;
+    questionCard.innerHTML = html;
+    quizForm.appendChild(questionCard);
+    // enable/disable inputs depending on started state
+    document.querySelectorAll('#quizForm input').forEach(i=>i.disabled = !testStarted);
+    updateProgressBar();
+}
+
+function submitAnswer(){
+    const selected = document.querySelector(`#quizForm input[name="q${currentIndex}"]:checked`);
+    const card = document.getElementsByClassName("question-card")[0];
+    const fb = document.getElementById('feedback');
+    card.classList.remove('correct'); card.classList.remove('wrong');
+    fb.textContent = '';
+    // clear any previous option highlights
+    document.querySelectorAll('#quizForm .option').forEach(l=>{ l.classList.remove('option-right','option-wrong'); });
+
+    if(selected && selected.value === quizData[currentIndex].answer){
+        score++;
+        card.classList.add('correct');
+        // highlight the selected label as correct
+        if(selected && selected.closest('label')) selected.closest('label').classList.add('option-right');
+        if(fb) { fb.textContent = 'Correct'; fb.style.color = '#22c55e'; }
+    } else {
+        card.classList.add('wrong');
+        // show correct answer and highlight options
+        const correctVal = quizData[currentIndex].answer;
+        if(fb) { fb.innerHTML = 'Wrong — correct: <strong>' + correctVal + '</strong>'; fb.style.color = '#ef4444'; }
+        // highlight correct option
+        const correctInput = document.querySelector(`#quizForm input[name="q${currentIndex}"][value="${quizData[currentIndex].answer}"]`);
+        if(correctInput && correctInput.closest('label')) correctInput.closest('label').classList.add('option-right');
+        // mark selected wrong option if any
+        if(selected && selected.closest('label')) selected.closest('label').classList.add('option-wrong');
+    }
+    // disable inputs for this question
+    document.querySelectorAll('#quizForm input').forEach(i=>i.disabled = true);
+    // move to next after short delay
+    setTimeout(()=>{
+        currentIndex++;
+        if(currentIndex < totalQuestions){
+            renderQuestion(currentIndex);
+        } else {
+            showResults();
+        }
+    },700);
+}
+
+function updateProgressBar(){
+    const pct = ((currentIndex) / totalQuestions) * 100;
+    document.getElementById('progressBar').style.width = `${pct}%`;
+}
+
+function showResults(){
+    if(timerInterval){ clearInterval(timerInterval); timerInterval = null; }
+    timeLeft = 0; updateTimerDisplay();
+    const percentage = (score / totalQuestions) * 100;
+    const resultBox = document.getElementById("resultBox");
+    resultBox.style.display = "block";
+    resultBox.innerHTML = `Your Score: ${score} / ${totalQuestions}<br><br>Percentage: ${percentage.toFixed(2)}%`;
+    document.querySelectorAll('#quizForm input').forEach(i=>i.disabled = true);
+    document.getElementById('startBtn').disabled = false;
+    document.getElementById('startBtn').textContent = 'Restart Test';
+    updateProgressBar();
+    window.scrollTo({ top:document.body.scrollHeight, behavior:"smooth" });
+    testStarted = false;
+}
+
+function submitQuiz(){
+    // stop timer if running
+    if(timerInterval){
+        clearInterval(timerInterval);
+        timerInterval = null;
+    }
+
+    // set timer to 0 display
+    timeLeft = 0;
+    updateTimerDisplay();
+
+    let score = 0;
+
+    quizData.forEach((q,index)=>{
+
+        const selected = document.querySelector(`input[name="q${index}"]:checked`);
+
+        const card = document.getElementsByClassName("question-card")[index];
+
+        card.classList.remove("correct");
+        card.classList.remove("wrong");
+
+        if(selected){
+
+            if(selected.value === q.answer){
+
+                score++;
+                card.classList.add("correct");
+
+            }else{
+
+                card.classList.add("wrong");
+
+            }
+
+        }else{
+
+            card.classList.add("wrong");
+
+        }
+
+    });
+
+    const percentage = (score / quizData.length) * 100;
+
+    const resultBox = document.getElementById("resultBox");
+
+    resultBox.style.display = "block";
+
+    resultBox.innerHTML = `
+        Your Score: ${score} / ${quizData.length}
+        <br><br>
+        Percentage: ${percentage.toFixed(2)}%
+    `;
+
+    document.getElementById("progressBar").style.width = `${percentage}%`;
+
+    window.scrollTo({
+        top:document.body.scrollHeight,
+        behavior:"smooth"
+    });
+
+    // disable inputs after submit
+    document.querySelectorAll('#quizForm input').forEach(i=>i.disabled = true);
+    document.getElementById('submitBtn').disabled = true;
+    // allow restart
+    const sb = document.getElementById('startBtn');
+    if(sb){ sb.disabled = false; sb.textContent = 'Restart Test'; }
+    testStarted = false;
+
+}
+
+</script>
+
+</body>
+</html>
